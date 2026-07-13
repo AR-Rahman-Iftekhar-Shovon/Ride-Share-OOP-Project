@@ -1,143 +1,177 @@
-🚗 Let's_Ride — Ride Sharing System (Java + OOP + MySQL)
+# 🚗 Let's Ride — Ride Sharing System (Java + OOP + MySQL)
 
-A console-based ride-sharing platform built in Java, demonstrating core Object-Oriented Programming principles with a real MySQL database backend. Built as a 2nd semester OOP course project.
+A console-based ride-sharing platform built in Java, demonstrating core **Object-Oriented Programming (OOP)** principles with a real **MySQL** database backend.
 
+Built as a **2nd Semester Object-Oriented Programming (OOP)** course project.
 
-📌 Overview
+---
 
-LetsRide simulates a simplified version of a ride-sharing service (like Uber/Pathao) where Passengers can request rides, Drivers can accept and complete them, and Admins can monitor the whole system — all backed by a persistent MySQL database.
+## 📌 Overview
 
+**Let's Ride** simulates a simplified ride-sharing service (similar to Uber or Pathao) where:
 
-✨ Features
+- 👤 Passengers can register, log in, and request rides.
+- 🚗 Drivers can accept and complete ride requests.
+- 🛡️ Admins can monitor users, drivers, and rides.
+- 💾 All data is stored permanently in a MySQL database.
 
+---
 
-User Registration & Login for Passengers and Drivers, with role-based Admin access
-Ride Request with pickup/drop location, distance, and vehicle type
-Ride Lifecycle Management — Request → Accept → Complete / Cancel
-Fare Calculation based on vehicle type (Car / Bike / CNG), each with its own per-km rate
-Driver Earnings Tracking
-Admin Dashboard — view all users, all rides, all drivers, and generate a system-wide report
-Persistent Storage — all data is saved in MySQL, not lost when the program closes
+## ✨ Features
 
+- User registration and login
+- Role-based access (Passenger, Driver, Admin)
+- Ride request with pickup & drop location
+- Vehicle selection (Car, Bike, CNG)
+- Ride lifecycle management
+  - Request
+  - Accept
+  - Complete
+  - Cancel
+- Fare calculation based on vehicle type
+- Driver earnings tracking
+- Admin dashboard
+- Persistent MySQL database storage
 
+---
 
-🧠 OOP Concepts Used
+## 🧠 OOP Concepts Used
 
-ConceptWhere it's usedEncapsulationAll model classes (User, Vehicle, Ride) keep fields private, exposed only via getters/settersInheritancePassenger, Driver, Admin extend User; Car, Bike, CNG extend VehiclePolymorphismgetRole() and calculateFare() are overridden differently in each subclass (runtime polymorphism); requestRide() is overloaded (compile-time polymorphism)AbstractionUser and Vehicle are abstract classes — they define a contract but can never be instantiated directlyCompositionDriver has-a Vehicle; Ride has-a Passenger and Driver
+| Concept | Implementation |
+|---------|----------------|
+| Encapsulation | Private fields with getters and setters |
+| Inheritance | Passenger, Driver, Admin → User; Car, Bike, CNG → Vehicle |
+| Polymorphism | Method overriding (`getRole()`, `calculateFare()`) and method overloading (`requestRide()`) |
+| Abstraction | `User` and `Vehicle` are abstract classes |
+| Composition | Driver has a Vehicle, Ride has Passenger and Driver |
 
+---
 
-🏗️ Architecture
+## 🏗️ Project Architecture
 
-The project follows a simple layered architecture:
-
+```
 com.ride
-├── Main.java                 → Console UI / entry point
-├── models/                   → Domain classes (User, Vehicle, Ride, etc.)
-├── service/                  → Business logic (AuthService, RideService)
-└── database/                 → Database connection handling
+│
+├── Main.java          // Console UI
+├── models/            // Domain classes
+├── service/           // Business logic
+└── database/          // Database connection
+```
 
+### Layer Responsibilities
 
-Models — plain OOP classes, no database logic
-Service layer — talks to the database via JDBC, keeps SQL out of Main.java
-Database layer — a single place responsible for the MySQL connection
+- **Models** → OOP classes
+- **Service** → Business logic and JDBC operations
+- **Database** → MySQL connection management
 
+---
 
+## 🛠️ Tech Stack
 
-🛠️ Tech Stack
+- Java (JDK 21)
+- MySQL
+- JDBC (mysql-connector-j)
+- Maven
 
+---
 
-Java (JDK 21)
-MySQL (relational database)
-JDBC (mysql-connector-j) for database connectivity
-Maven for dependency management and build
+## 🗄️ Database Schema
 
+| Table | Purpose |
+|------|---------|
+| users | Stores Passengers, Drivers and Admins |
+| vehicles | Stores vehicle information |
+| drivers_extra | Driver-specific details |
+| rides | Stores ride requests and ride history |
 
+**SQL Script:** `RideShare.sql`
 
-🗄️ Database Schema
+---
 
-TablePurposeusersStores Passengers, Drivers, and Admins (differentiated by a role column)vehiclesVehicle details (Car / Bike / CNG)drivers_extraExtra driver-specific data — assigned vehicle, availability, earningsridesEvery ride request, its status, and fare
+## 🚀 Getting Started
 
-Full schema: RideShare.sql
+### Prerequisites
 
+- JDK 21+
+- MySQL Server
+- Maven
 
-🚀 Getting Started
+### Clone Repository
 
-Prerequisites
-
-
-JDK 21+
-MySQL Server running locally
-Maven
-
-
-Setup
-
-
-Clone the repo
-
-
-bash   git clone https://github.com/<your-username>/letsride.git
+```bash
+git clone https://github.com/AR-Rahman-Iftekhar-Shovon/letsride.git
 cd letsride
+```
 
+### Create Database
 
-Create the database
-bash   mysql -u root -p < RideShare.sql
+```bash
+mysql -u root -p < RideShare.sql
+```
 
+### Configure Database
 
-Configure your database credentials
-Copy the example config and fill in your own MySQL credentials:
+Copy:
 
+```bash
+cp db.properties.example db.properties
+```
 
-bash   cp db.properties.example db.properties
+Edit:
 
-Edit db.properties:
+```properties
+db.url=jdbc:mysql://localhost:3306/ride_sharing_db
+db.user=root
+db.password=your_password
+```
 
-properties   db.url=jdbc:mysql://localhost:3306/ride_sharing_db
-   db.user=root
-   db.password=your_password_here
+> `db.properties` is ignored by Git, so your password won't be uploaded.
 
+### Build & Run
 
-db.properties is git-ignored — your real credentials never get committed.
+```bash
+mvn clean install
+mvn compile exec:java
+```
 
+---
 
+## 📋 Sample Menu
 
-
-Build and run
-
-
-bash   mvn clean install
-       mvn compile exec:java
-
-
-📋 Sample Menu Flow
-
+```text
 =================================
-          LET'S RIDE      
+        LET'S RIDE
 =================================
 1. Passenger Login
 2. Driver Login
 3. Admin Login
-4. Register (New User)
+4. Register
 5. Exit
 =================================
+```
 
+---
 
-🔮 Future Improvements
+## 🔮 Future Improvements
 
+- Password hashing
+- JUnit testing
+- REST API
+- Ride rating & review system
+- GUI version (JavaFX/Swing)
+- Online payment integration
 
-Password hashing (currently stored as plain text — fine for a learning project, not for production)
-Unit tests with JUnit
-REST API layer instead of console I/O
-Ride rating/review system
+---
 
+## 📄 License
 
+This project is licensed under the **MIT License**.
 
-📄 License
+---
 
-This project is licensed under the MIT License — see the LICENSE file for details.
+## 👨‍💻 Author
 
+**AR Rahman Iftekhar Shovon**
 
-👤 Author
-
-AR Rahman Iftekhar Shovon
-2nd Semester — Object-Oriented Programming Course Project
+Computer Science & Engineering (CSE)  
+2nd Semester OOP Course Project
