@@ -151,6 +151,31 @@ mvn compile exec:java
 ```
 
 ---
+## 📸 Screenshots
+
+### Main Menu
+![Main Menu](./screenshots/1.png)
+
+### Registration
+![Registration](./screenshots/2.png)
+
+### Passenger Menu & Request a Ride
+![Passenger  Menu & Request a Ride](./screenshots/3.png)
+
+### Ride History
+![Ride History](./screenshots/4.png)
+
+### Driver Menu & Available Rides
+![Driver Menu & Available Rides](./screenshots/5.png)
+
+### Passenger Menu After Completed the Ride
+![Admin Menu After Completed the Ride](./screenshots/6.png)
+
+### System Report
+![System Report](./screenshots/7.png)
+
+
+
 
 ## 🔮 Future Improvements
 
