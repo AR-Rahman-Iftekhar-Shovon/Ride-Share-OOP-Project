@@ -1,7 +1,7 @@
 package com.ride.database;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,8 +9,6 @@ import java.util.Properties;
 
 public class Database {
 
-    // db.properties file theke connection info load kora hoy.
-    // Ei file-ta .gitignore-e thakbe, tai GitHub-e password kokhono jabe na.
     private static final String CONFIG_FILE = "db.properties";
 
     private static String url;
@@ -19,14 +17,18 @@ public class Database {
 
     static {
         Properties props = new Properties();
-        try (FileInputStream fis = new FileInputStream(CONFIG_FILE)) {
-            props.load(fis);
-            url = props.getProperty("db.url");
-            user = props.getProperty("db.user");
-            password = props.getProperty("db.password");
+        try (InputStream is = Database.class.getClassLoader().getResourceAsStream(CONFIG_FILE)) {
+            if (is == null) {
+                System.out.println(">>> db.properties not found on classpath.");
+                System.out.println(">>> Make sure it's inside src/main/resources/, then run 'mvn clean install' again.");
+            } else {
+                props.load(is);
+                url = props.getProperty("db.url");
+                user = props.getProperty("db.user");
+                password = props.getProperty("db.password");
+            }
         } catch (IOException e) {
-            System.out.println(">>> Could not read db.properties file.");
-            System.out.println(">>> Copy db.properties.example to db.properties and fill in your own credentials.");
+            System.out.println(">>> Could not read db.properties file: " + e.getMessage());
         }
     }
 
